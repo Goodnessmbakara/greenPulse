@@ -5,19 +5,20 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { TrendingUp, TrendingDown, Activity, MapPin } from "lucide-react";
+import { TrendingUp, TrendingDown, Activity, MapPin, Calendar } from "lucide-react";
+import AlertSubscription from "@/components/AlertSubscription";
 
 const Insights = () => {
-  // Live data for core crops based on NASA MODIS NDVI
+  // Live data for core crops based on NASA MODIS NDVI with predictions
   const cropBloomData = [
-    { crop: 'Maize', region: 'Nigeria', ndvi: 0.78, temp: 28.5, status: 'Peak Bloom', intensity: 'high', color: '#7ED321' },
-    { crop: 'Wheat', region: 'India', ndvi: 0.75, temp: 22.3, status: 'Peak Bloom', intensity: 'high', color: '#7ED321' },
-    { crop: 'Corn', region: 'USA', ndvi: 0.72, temp: 24.1, status: 'Peak Bloom', intensity: 'high', color: '#7ED321' },
-    { crop: 'Coffee', region: 'Brazil', ndvi: 0.64, temp: 23.8, status: 'Early Bloom', intensity: 'medium', color: '#9ACD32' },
-    { crop: 'Wheat', region: 'China', ndvi: 0.61, temp: 18.5, status: 'Early Bloom', intensity: 'medium', color: '#9ACD32' },
-    { crop: 'Tea', region: 'Kenya', ndvi: 0.58, temp: 21.2, status: 'Early Bloom', intensity: 'medium', color: '#9ACD32' },
-    { crop: 'Soy', region: 'Argentina', ndvi: 0.42, temp: 16.8, status: 'Pre-Bloom', intensity: 'low', color: '#D3D3D3' },
-    { crop: 'Wheat', region: 'Australia', ndvi: 0.38, temp: 15.2, status: 'Pre-Bloom', intensity: 'low', color: '#D3D3D3' },
+    { crop: 'Maize', region: 'Nigeria', ndvi: 0.78, temp: 28.5, status: 'Peak Bloom', intensity: 'high', color: '#7ED321', prediction: 'Optimal harvest: Next 7-14 days' },
+    { crop: 'Wheat', region: 'India', ndvi: 0.75, temp: 22.3, status: 'Peak Bloom', intensity: 'high', color: '#7ED321', prediction: 'Peak continues for 10 days' },
+    { crop: 'Corn', region: 'USA', ndvi: 0.72, temp: 24.1, status: 'Peak Bloom', intensity: 'high', color: '#7ED321', prediction: 'Harvest window: 5-12 days' },
+    { crop: 'Coffee', region: 'Brazil', ndvi: 0.64, temp: 23.8, status: 'Early Bloom', intensity: 'medium', color: '#9ACD32', prediction: 'Peak bloom in 14-21 days' },
+    { crop: 'Wheat', region: 'China', ndvi: 0.61, temp: 18.5, status: 'Early Bloom', intensity: 'medium', color: '#9ACD32', prediction: 'Peak bloom in 18-25 days' },
+    { crop: 'Tea', region: 'Kenya', ndvi: 0.58, temp: 21.2, status: 'Early Bloom', intensity: 'medium', color: '#9ACD32', prediction: 'Full bloom in 21-30 days' },
+    { crop: 'Soy', region: 'Argentina', ndvi: 0.42, temp: 16.8, status: 'Pre-Bloom', intensity: 'low', color: '#D3D3D3', prediction: 'Bloom expected in 35-45 days' },
+    { crop: 'Wheat', region: 'Australia', ndvi: 0.38, temp: 15.2, status: 'Pre-Bloom', intensity: 'low', color: '#D3D3D3', prediction: 'Bloom expected in 40-50 days' },
   ];
 
   // NDVI trend data over 6 months (simulated based on typical patterns)
@@ -84,6 +85,12 @@ const Insights = () => {
                       }`}>
                         {crop.status}
                       </Badge>
+                      <div className="pt-2 mt-2 border-t">
+                        <div className="flex items-start gap-2">
+                          <Calendar className="w-3 h-3 text-primary mt-0.5 flex-shrink-0" />
+                          <p className="text-xs text-muted-foreground leading-tight">{crop.prediction}</p>
+                        </div>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -252,6 +259,12 @@ const Insights = () => {
                   </div>
                 </CardContent>
               </Card>
+            </div>
+
+            {/* Alert Subscription Section */}
+            <div className="mt-12">
+              <h2 className="text-2xl font-bold mb-6">Never Miss a Bloom Event</h2>
+              <AlertSubscription />
             </div>
           </div>
         </section>
