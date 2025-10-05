@@ -1,73 +1,92 @@
-# Welcome to your Lovable project
+# GreenPulse
 
-## Project info
+A climate-resilient platform leveraging NASA Earth observation data to track and predict flowering events globally. GreenPulse addresses disruptions caused by climate change, such as irregular blooming leading to reduced agricultural yields, ecosystem imbalances, and challenges in pollination and pest management.
 
-**URL**: https://lovable.dev/projects/a9e4beed-3af6-4188-874b-8e5eaa7c0772
+## Overview
 
-## How can I edit this code?
+GreenPulse empowers farmers and researchers with actionable insights while supporting broader climate studies. The platform provides an interactive global map showing bloom hotspots by region and crop/plant type, predictive alerts, and multi-language support including optional SMS for rural farmers.
 
-There are several ways of editing your application.
+## Features
 
-**Use Lovable**
+- **Interactive Global Map**: View flowering hotspots across different regions and plant types
+- **Predictive Alerts**: Get notified about upcoming bloom events and optimal timing for harvests
+- **NASA Data Integration**: Leverages MODIS, Landsat, and VIIRS satellite data
+- **Multi-language Support**: Accessible to users worldwide in their native languages
+- **SMS Alerts**: Reach rural farmers without reliable internet access
+- **Climate Research Tools**: Data exports and analytics for researchers studying ecosystem shifts
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/a9e4beed-3af6-4188-874b-8e5eaa7c0772) and start prompting.
+## Technology Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Frontend**: React with TypeScript
+- **Build Tool**: Vite
+- **UI Components**: shadcn-ui with Tailwind CSS
+- **Maps**: Leaflet and React Leaflet
+- **Data Sources**: NASA Earth observation data (MODIS, Landsat, VIIRS)
 
-**Use your preferred IDE**
+## Getting Started
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Prerequisites
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Node.js (v16 or higher)
+- pnpm package manager
 
-Follow these steps:
+### Installation
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+1. Clone the repository:
+```bash
+git clone <your-repo-url>
+cd greenPulse
 ```
 
-**Edit a file directly in GitHub**
+2. Install dependencies:
+```bash
+pnpm install
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+3. Start the development server:
+```bash
+pnpm dev
+```
 
-**Use GitHub Codespaces**
+The application will be available at `http://localhost:8080`
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Building for Production
 
-## What technologies are used for this project?
+```bash
+pnpm build
+```
 
-This project is built with:
+## Project Structure
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```
+greenPulse/
+├── src/
+│   ├── components/     # React components
+│   ├── pages/          # Page components
+│   ├── hooks/          # Custom React hooks
+│   ├── lib/            # Utility functions
+│   └── assets/         # Images and static assets
+├── public/             # Public static files
+└── docs/               # Documentation including PRD
+```
 
-## How can I deploy this project?
+## Documentation
 
-Simply open [Lovable](https://lovable.dev/projects/a9e4beed-3af6-4188-874b-8e5eaa7c0772) and click on Share -> Publish.
+For detailed product requirements and technical specifications, see [PRD.md](./PRD.md).
 
-## Can I connect a custom domain to my Lovable project?
+## Contributing
 
-Yes, you can!
+Contributions are welcome! Please read our contributing guidelines before submitting pull requests.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## License
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+This project is built for the NASA Space Apps Challenge 2025.
+
+## Acknowledgments
+
+- NASA Earth Science Data for providing open satellite observation data
+- All contributors and researchers supporting climate-resilient agriculture
+
+## Contact
+
+For questions or feedback, please open an issue in this repository.
