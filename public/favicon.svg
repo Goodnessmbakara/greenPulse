@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="16" fill="#7ED321"/>
+  
+  <!-- Plant stem -->
+  <path d="M16 8 L16 24" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+  
+  <!-- Left leaf -->
+  <path d="M16 12 Q10 10 8 14 Q9 16 16 15" fill="#fff" opacity="0.9"/>
+  
+  <!-- Right leaf -->
+  <path d="M16 16 Q22 14 24 18 Q23 20 16 19" fill="#fff" opacity="0.9"/>
+  
+  <!-- Top sprout -->
+  <circle cx="16" cy="8" r="2" fill="#fff"/>
+</svg>
