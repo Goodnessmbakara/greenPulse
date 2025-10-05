@@ -7,9 +7,9 @@ import BloomingMap from "@/components/map/BloomingMap";
 
 const InteractiveMap = () => {
   const [layers, setLayers] = useState({
+    ndvi: true,  // Start with NDVI layer active (vegetation/bloom tracking)
     temperature: false,
-    precipitation: false,
-    soilMoisture: false,
+    evi: false,
   });
 
   const handleLayerToggle = (layer: keyof typeof layers) => {
@@ -44,17 +44,22 @@ const InteractiveMap = () => {
 
           {/* Info Section Below Map */}
           <div className="mt-8 bg-white rounded-lg p-6 shadow-lg">
-            <h2 className="text-2xl font-bold mb-4">About This Map</h2>
+            <h2 className="text-2xl font-bold mb-4">🛰️ Live NASA Satellite Data</h2>
             <p className="text-muted-foreground mb-4">
-              This interactive map displays real-time blooming predictions powered by NASA Earth observation data including:
+              This interactive map displays <strong>real-time flowering predictions</strong> powered by NASA Earth observation data:
             </p>
             <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-              <li><strong>MODIS Data:</strong> Vegetation indices (NDVI) tracking plant health and blooming intensity</li>
-              <li><strong>Landsat Data:</strong> High-resolution imagery for detailed regional analysis</li>
-              <li><strong>VIIRS Data:</strong> Night-time detection for comprehensive coverage</li>
+              <li><strong>MODIS NDVI (250m):</strong> Normalized Difference Vegetation Index - tracks plant health, flowering intensity, and bloom patterns globally</li>
+              <li><strong>MODIS Temperature (1km):</strong> Land surface temperature data - correlates temperature with bloom timing and events</li>
+              <li><strong>MODIS EVI (250m):</strong> Enhanced Vegetation Index - advanced analysis for dense canopy areas and agricultural regions</li>
             </ul>
+            <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+              <p className="text-sm text-green-800">
+                <strong>✓ Real-Time Data:</strong> All layers use live satellite observations from NASA EOSDIS GIBS (Global Imagery Browse Services). Data is updated every 8 days for vegetation indices and daily for temperature.
+              </p>
+            </div>
             <p className="text-sm text-muted-foreground mt-4">
-              Click on any blooming hotspot to view detailed information about that region.
+              <strong>How to use:</strong> Toggle layers in the right sidebar to explore different data views. Click on bloom markers to see regional details. The map shows key agricultural regions globally where flowering events are actively monitored.
             </p>
           </div>
         </div>

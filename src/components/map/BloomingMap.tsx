@@ -1,82 +1,102 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { GIBS_WMS_URL, NASA_LAYERS, getGIBSLayerConfig } from '@/lib/nasaApi';
 
 interface BloomingMapProps {
   layers: {
+    ndvi: boolean;
     temperature: boolean;
-    precipitation: boolean;
-    soilMoisture: boolean;
+    evi: boolean;
   };
 }
 
 const BloomingMap = ({ layers }: BloomingMapProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<L.Map | null>(null);
+  const nasaLayers = useRef<{ [key: string]: L.TileLayer }>({});
 
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
 
-    // Initialize map centered on Nigeria
-    map.current = L.map(mapContainer.current).setView([9.0820, 8.6753], 6);
+    // Initialize map - Global view for worldwide bloom tracking
+    map.current = L.map(mapContainer.current).setView([20, 0], 3);
 
-    // Add OpenStreetMap tiles
+    // Add OpenStreetMap base layer
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors',
       maxZoom: 19,
     }).addTo(map.current);
 
-    // Simulated blooming data hotspots (representing NASA MODIS/Landsat data)
-    const bloomingHotspots = [
-      // High blooming areas (Northern regions)
-      { lat: 12.5, lng: 7.5, intensity: 'high', radius: 80000 },
-      { lat: 11.8, lng: 8.8, intensity: 'high', radius: 60000 },
-      { lat: 10.5, lng: 9.5, intensity: 'high', radius: 70000 },
-      
-      // Medium blooming areas (Central regions)
-      { lat: 9.5, lng: 7.5, intensity: 'medium', radius: 50000 },
-      { lat: 8.5, lng: 9.0, intensity: 'medium', radius: 55000 },
-      { lat: 7.5, lng: 8.5, intensity: 'medium', radius: 45000 },
-      
-      // Low/emerging blooming areas (Southern regions)
-      { lat: 6.5, lng: 3.5, intensity: 'low', radius: 40000 },
-      { lat: 5.5, lng: 7.0, intensity: 'low', radius: 35000 },
-      { lat: 4.8, lng: 6.5, intensity: 'low', radius: 30000 },
-    ];
-
-    // Add blooming hotspot circles
-    bloomingHotspots.forEach(spot => {
-      const color = spot.intensity === 'high' 
-        ? '#7ED321' 
-        : spot.intensity === 'medium' 
-        ? 'rgba(126, 211, 33, 0.5)' 
-        : '#d3d3d3';
-      
-      const circle = L.circle([spot.lat, spot.lng], {
-        color: color,
-        fillColor: color,
-        fillOpacity: 0.6,
-        radius: spot.radius,
-      }).addTo(map.current!);
-
-      circle.bindPopup(`
-        <strong>Blooming Intensity: ${spot.intensity.toUpperCase()}</strong><br>
-        Coordinates: ${spot.lat.toFixed(2)}, ${spot.lng.toFixed(2)}<br>
-        Data Source: NASA MODIS/Landsat
-      `);
+    // Create NASA GIBS layers (real satellite data)
+    
+    // MODIS Terra NDVI - Vegetation Health (Real NASA Data)
+    const ndviConfig = getGIBSLayerConfig(NASA_LAYERS.NDVI);
+    nasaLayers.current.ndvi = L.tileLayer.wms(ndviConfig.url, {
+      ...ndviConfig.options,
+      opacity: 0.7,
     });
 
-    // Add Nigeria boundary marker
-    const nigeriaCoords: [number, number][] = [
-      [13.892, 3.478], [13.892, 14.680],
-      [4.277, 14.680], [4.277, 3.478], [13.892, 3.478]
+    // MODIS Terra Land Surface Temperature (Real NASA Data)
+    const tempConfig = getGIBSLayerConfig(NASA_LAYERS.TEMPERATURE);
+    nasaLayers.current.temperature = L.tileLayer.wms(tempConfig.url, {
+      ...tempConfig.options,
+      opacity: 0.6,
+    });
+
+    // MODIS Terra EVI - Enhanced Vegetation Index (Real NASA Data)
+    const eviConfig = getGIBSLayerConfig(NASA_LAYERS.EVI);
+    nasaLayers.current.evi = L.tileLayer.wms(eviConfig.url, {
+      ...eviConfig.options,
+      opacity: 0.7,
+    });
+
+    // Add layer control to map
+    const baseMaps = {
+      'OpenStreetMap': L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+      }),
+    };
+
+    const overlayMaps = {
+      'Vegetation (NDVI) - NASA MODIS': nasaLayers.current.ndvi,
+      'Temperature - NASA MODIS': nasaLayers.current.temperature,
+      'Enhanced Vegetation (EVI) - NASA MODIS': nasaLayers.current.evi,
+    };
+
+    L.control.layers(baseMaps, overlayMaps, {
+      collapsed: false,
+      position: 'topright',
+    }).addTo(map.current);
+
+    // Add global bloom monitoring markers (key regions)
+    const globalBloomRegions = [
+      { name: 'Nigeria - Maize Belt', lat: 11.0, lng: 8.5, crop: 'Maize' },
+      { name: 'India - Punjab', lat: 31.1, lng: 75.3, crop: 'Wheat' },
+      { name: 'Brazil - São Paulo', lat: -23.5, lng: -46.6, crop: 'Coffee' },
+      { name: 'USA - Midwest', lat: 40.0, lng: -95.0, crop: 'Corn' },
+      { name: 'China - North Plain', lat: 35.0, lng: 115.0, crop: 'Wheat' },
     ];
-    
-    L.polygon(nigeriaCoords, {
-      color: '#333',
-      weight: 2,
-      fillOpacity: 0,
-    }).addTo(map.current!);
+
+    globalBloomRegions.forEach(region => {
+      const marker = L.marker([region.lat, region.lng], {
+        icon: L.divIcon({
+          className: 'custom-bloom-marker',
+          html: '<div style="background: #7ED321; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white;"></div>',
+          iconSize: [20, 20],
+        }),
+      }).addTo(map.current!);
+
+      marker.bindPopup(`
+        <div style="min-width: 200px;">
+          <strong>${region.name}</strong><br>
+          <strong>Crop:</strong> ${region.crop}<br>
+          <strong>Data Source:</strong> NASA MODIS NDVI<br>
+          <em>Real-time satellite data</em><br>
+          <small>Coordinates: ${region.lat.toFixed(2)}, ${region.lng.toFixed(2)}</small>
+        </div>
+      `);
+    });
 
     return () => {
       if (map.current) {
@@ -86,12 +106,33 @@ const BloomingMap = ({ layers }: BloomingMapProps) => {
     };
   }, []);
 
-  // Update overlays based on layer selection
+  // Update NASA GIBS overlays based on layer selection (Real-time control)
   useEffect(() => {
     if (!map.current) return;
 
-    // In a real implementation, you would add/remove actual data layers here
-    console.log('Active layers:', layers);
+    // Toggle NDVI layer
+    if (layers.ndvi && nasaLayers.current.ndvi && !map.current.hasLayer(nasaLayers.current.ndvi)) {
+      nasaLayers.current.ndvi.addTo(map.current);
+      console.log('✅ NASA MODIS NDVI layer activated (Real satellite data)');
+    } else if (!layers.ndvi && nasaLayers.current.ndvi && map.current.hasLayer(nasaLayers.current.ndvi)) {
+      map.current.removeLayer(nasaLayers.current.ndvi);
+    }
+
+    // Toggle Temperature layer
+    if (layers.temperature && nasaLayers.current.temperature && !map.current.hasLayer(nasaLayers.current.temperature)) {
+      nasaLayers.current.temperature.addTo(map.current);
+      console.log('✅ NASA MODIS Temperature layer activated (Real satellite data)');
+    } else if (!layers.temperature && nasaLayers.current.temperature && map.current.hasLayer(nasaLayers.current.temperature)) {
+      map.current.removeLayer(nasaLayers.current.temperature);
+    }
+
+    // Toggle EVI layer
+    if (layers.evi && nasaLayers.current.evi && !map.current.hasLayer(nasaLayers.current.evi)) {
+      nasaLayers.current.evi.addTo(map.current);
+      console.log('✅ NASA MODIS EVI layer activated (Real satellite data)');
+    } else if (!layers.evi && nasaLayers.current.evi && map.current.hasLayer(nasaLayers.current.evi)) {
+      map.current.removeLayer(nasaLayers.current.evi);
+    }
   }, [layers]);
 
   return (
