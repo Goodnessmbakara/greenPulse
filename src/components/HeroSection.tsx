@@ -75,8 +75,8 @@ const HeroSection = () => {
               Utilizing NASA data for plant forecasts!
             </p>
 
-            <div className="max-w-5xl mx-auto bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-6 md:p-8">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+            <div className="max-w-5xl mx-auto bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-4 sm:p-6 md:p-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 items-end">
                 <div className="text-left">
                   <label className="block text-sm font-semibold mb-2">Location</label>
                   <Input 
@@ -125,7 +125,7 @@ const HeroSection = () => {
               </div>
               
               <Button 
-                className="mt-6 w-full md:w-auto bg-primary hover:bg-primary/90 text-white px-8"
+                className="mt-4 sm:mt-6 w-full md:w-auto bg-primary hover:bg-primary/90 text-white px-6 sm:px-8"
                 onClick={handleSearch}
               >
                 Search

@@ -45,12 +45,12 @@ const Insights = () => {
       <main className="flex-1 pt-20">
         <section className="py-12 bg-secondary/30">
           <div className="container mx-auto px-6">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
               <div>
-                <h1 className="text-4xl font-bold mb-2">Live Bloom Insights</h1>
-                <p className="text-muted-foreground">Real-time analysis from NASA MODIS satellite data</p>
+                <h1 className="text-3xl sm:text-4xl font-bold mb-2">Live Bloom Insights</h1>
+                <p className="text-sm sm:text-base text-muted-foreground">Real-time analysis from NASA MODIS satellite data</p>
               </div>
-              <Badge className="bg-green-500 hover:bg-green-600">🛰️ Live NASA Data</Badge>
+              <Badge className="bg-green-500 hover:bg-green-600 whitespace-nowrap">🛰️ Live NASA Data</Badge>
             </div>
             
             {/* Core Crops Bloom Status */}

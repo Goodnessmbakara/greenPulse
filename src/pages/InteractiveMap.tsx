@@ -109,7 +109,30 @@ const InteractiveMap = () => {
             </div>
           )}
           
-          <div className="flex gap-6 h-[calc(100vh-200px)]">
+          {/* Mobile Layout */}
+          <div className="lg:hidden space-y-4">
+            {/* Map First on Mobile */}
+            <div className="bg-white rounded-lg overflow-hidden shadow-lg" style={{ height: '400px' }}>
+              <BloomingMap 
+                layers={layers} 
+                bloomFilters={bloomFilters}
+                resetTrigger={resetTrigger}
+                searchLocation={location}
+              />
+            </div>
+
+            {/* Collapsible Controls on Mobile */}
+            <div className="grid grid-cols-1 gap-4">
+              <MapLayers layers={layers} onLayerToggle={handleLayerToggle} />
+              <MapLegend 
+                onFilterApply={handleFilterApply}
+                onResetMap={handleResetMap}
+              />
+            </div>
+          </div>
+
+          {/* Desktop Layout */}
+          <div className="hidden lg:flex gap-6 h-[calc(100vh-200px)]">
             {/* Left Sidebar - Legend */}
             <div className="w-64 flex-shrink-0">
               <MapLegend 

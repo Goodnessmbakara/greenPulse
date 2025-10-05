@@ -3,16 +3,16 @@ import { Twitter } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-muted py-8 border-t border-border mt-auto">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div className="text-sm text-muted-foreground">
-            <p>Contact Us: <a href="mailto:info@greenpulse.biz" className="hover:text-primary transition-colors">info@greenpulse.biz</a></p>
+    <footer className="bg-muted py-6 sm:py-8 border-t border-border mt-auto">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div className="text-sm text-muted-foreground space-y-1">
+            <p>Contact: <a href="mailto:info@greenpulse.biz" className="hover:text-primary transition-colors break-all">info@greenpulse.biz</a></p>
             <p>Phone: <a href="tel:+2347041203832" className="hover:text-primary transition-colors">+234 704 120 3832</a></p>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">Follow us:</span>
+            <span className="text-sm text-muted-foreground">Follow:</span>
             <a 
               href="https://twitter.com/goodnesmbakara" 
               target="_blank" 
