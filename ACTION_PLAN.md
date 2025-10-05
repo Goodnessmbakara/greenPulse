@@ -343,7 +343,7 @@ export const AlertSubscription = () => {
         <div className="flex gap-2">
           <Input
             type="tel"
-            placeholder="+234 XXX XXX XXXX"
+            placeholder="+2347041203832"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             className="flex-1"

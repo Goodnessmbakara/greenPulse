@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div className="text-sm text-muted-foreground">
             <p>Contact Us: <a href="mailto:info@greenpulse.com" className="hover:text-primary transition-colors">info@greenpulse.com</a></p>
-            <p>Phone: +1 234 567 890</p>
+            <p>Phone: <a href="tel:+2347041203832" className="hover:text-primary transition-colors">+234 704 120 3832</a></p>
           </div>
 
           <div className="flex items-center gap-4">

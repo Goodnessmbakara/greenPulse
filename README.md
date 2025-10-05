@@ -89,4 +89,7 @@ This project is built for the NASA Space Apps Challenge 2025.
 
 ## Contact
 
-For questions or feedback, please open an issue in this repository.
+For questions or feedback:
+- **Email:** info@greenpulse.com
+- **Phone:** +234 704 120 3832
+- **GitHub Issues:** Open an issue in this repository
