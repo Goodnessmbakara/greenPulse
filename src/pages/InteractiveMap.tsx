@@ -1,16 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import MapLegend from "@/components/map/MapLegend";
 import MapLayers from "@/components/map/MapLayers";
 import BloomingMap from "@/components/map/BloomingMap";
+import { Badge } from "@/components/ui/badge";
 
 const InteractiveMap = () => {
+  const [searchParams] = useSearchParams();
   const [layers, setLayers] = useState({
     ndvi: true,  // Start with NDVI layer active (vegetation/bloom tracking)
     temperature: false,
     evi: false,
   });
+
+  // Extract search parameters
+  const location = searchParams.get('location');
+  const startDate = searchParams.get('startDate');
+  const endDate = searchParams.get('endDate');
+  const farmers = searchParams.get('farmers');
+
+  useEffect(() => {
+    if (location) {
+      console.log('🔍 Search Parameters:', {
+        location,
+        startDate,
+        endDate,
+        farmers
+      });
+    }
+  }, [location, startDate, endDate, farmers]);
 
   const handleLayerToggle = (layer: keyof typeof layers) => {
     setLayers(prev => ({
@@ -25,6 +45,43 @@ const InteractiveMap = () => {
       
       <main className="flex-1 pt-20">
         <div className="container mx-auto px-6 py-8">
+          {/* Search Results Header */}
+          {location && (
+            <div className="mb-6 p-4 bg-white rounded-lg shadow-md">
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h2 className="text-xl font-bold mb-2">
+                    🌱 Bloom Data for: <span className="text-primary">{location}</span>
+                  </h2>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    {startDate && (
+                      <Badge variant="secondary">
+                        From: {new Date(startDate).toLocaleDateString()}
+                      </Badge>
+                    )}
+                    {endDate && (
+                      <Badge variant="secondary">
+                        To: {new Date(endDate).toLocaleDateString()}
+                      </Badge>
+                    )}
+                    {farmers && (
+                      <Badge variant="outline">
+                        👥 {farmers} farmer{parseInt(farmers) > 1 ? 's' : ''}
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+                <Badge className="bg-green-500 hover:bg-green-600">
+                  🛰️ Live NASA Data
+                </Badge>
+              </div>
+              <p className="text-sm text-muted-foreground mt-3">
+                Displaying real-time MODIS vegetation and temperature data for your location. 
+                Use the layer controls to explore different satellite views.
+              </p>
+            </div>
+          )}
+          
           <div className="flex gap-6 h-[calc(100vh-200px)]">
             {/* Left Sidebar - Legend */}
             <div className="w-64 flex-shrink-0">
