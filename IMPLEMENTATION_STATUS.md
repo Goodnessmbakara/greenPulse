@@ -48,7 +48,7 @@
 - ✅ Layer control synchronized with map
 
 ### 6. **Contact & Social** ✅
-- ✅ Email: info@greenpulse.com
+- ✅ Email: info@greenpulse.biz
 - ✅ Phone: +234 704 120 3832 (click-to-call)
 - ✅ Twitter: @goodnesmbakara
 - ✅ Contact info on all pages
