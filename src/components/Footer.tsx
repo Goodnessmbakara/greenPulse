@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Facebook, Twitter, Linkedin } from "lucide-react";
+import { Twitter } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -11,33 +11,17 @@ const Footer = () => {
             <p>Phone: <a href="tel:+2347041203832" className="hover:text-primary transition-colors">+234 704 120 3832</a></p>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">Follow us:</span>
             <a 
-              href="https://facebook.com" 
+              href="https://twitter.com/goodnesmbakara" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Facebook"
-            >
-              <Facebook className="w-5 h-5" />
-            </a>
-            <a 
-              href="https://twitter.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Twitter"
+              className="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2"
+              aria-label="Follow us on Twitter"
             >
               <Twitter className="w-5 h-5" />
-            </a>
-            <a 
-              href="https://linkedin.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="w-5 h-5" />
+              <span className="text-sm">@goodnesmbakara</span>
             </a>
           </div>
         </div>
