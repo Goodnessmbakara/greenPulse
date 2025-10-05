@@ -1,56 +1,53 @@
+import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
-import { BarChart3, MapPin, Bell, Globe2, BookOpen, Languages } from "lucide-react";
+import { MapPin, Satellite, Globe2 } from "lucide-react";
 
 const KeyInsightsSection = () => {
   const insights = [
     {
-      icon: <BarChart3 className="w-12 h-12 text-primary" />,
-      label: "Dashboard",
-      bgColor: "bg-muted"
-    },
-    {
       icon: <MapPin className="w-12 h-12 text-primary" />,
-      label: "Map View",
-      bgColor: "bg-secondary/50"
+      label: "Interactive Map",
+      description: "Explore global bloom patterns with real NASA satellite data",
+      bgColor: "bg-green-50",
+      link: "/interactive-map"
     },
     {
-      icon: <Bell className="w-12 h-12 text-primary" />,
-      label: "Alerts",
-      bgColor: "bg-secondary/50"
+      icon: <Satellite className="w-12 h-12 text-primary" />,
+      label: "NASA MODIS Data",
+      description: "Live vegetation health tracking at 250m resolution",
+      bgColor: "bg-blue-50",
+      link: "/interactive-map"
     },
     {
       icon: <Globe2 className="w-12 h-12 text-primary" />,
-      label: "Contact",
-      bgColor: "bg-muted"
-    },
-    {
-      icon: <Languages className="w-12 h-12 text-primary" />,
-      label: "Languages",
-      bgColor: "bg-muted"
-    },
-    {
-      icon: <BookOpen className="w-12 h-12 text-primary" />,
-      label: "Resources",
-      bgColor: "bg-orange-100"
+      label: "Global Coverage",
+      description: "8 bloom regions monitored across 5 continents",
+      bgColor: "bg-purple-50",
+      link: "/interactive-map"
     }
   ];
 
   return (
-    <section className="py-16">
+    <section className="py-16 bg-secondary/20">
       <div className="container mx-auto px-6">
-        <h2 className="text-3xl font-bold mb-8">Key Insights</h2>
+        <h2 className="text-3xl font-bold mb-4 text-center">Why GreenPulse?</h2>
+        <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
+          Real-time flowering predictions powered by NASA Earth observation data
+        </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {insights.map((insight, index) => (
-            <Card 
-              key={index}
-              className={`${insight.bgColor} p-8 flex flex-col items-center justify-center text-center hover:shadow-lg transition-all cursor-pointer border-none aspect-video`}
-            >
-              <div className="mb-4">
-                {insight.icon}
-              </div>
-              <h3 className="text-lg font-semibold">{insight.label}</h3>
-            </Card>
+            <Link key={index} to={insight.link}>
+              <Card 
+                className={`${insight.bgColor} p-8 flex flex-col items-center text-center hover:shadow-xl transition-all cursor-pointer border-2 border-transparent hover:border-primary h-full`}
+              >
+                <div className="mb-4">
+                  {insight.icon}
+                </div>
+                <h3 className="text-lg font-bold mb-2">{insight.label}</h3>
+                <p className="text-sm text-muted-foreground">{insight.description}</p>
+              </Card>
+            </Link>
           ))}
         </div>
       </div>
