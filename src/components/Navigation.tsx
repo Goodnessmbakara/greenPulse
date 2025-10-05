@@ -14,10 +14,13 @@ const Navigation = () => {
           
           <div className="hidden md:flex items-center gap-8">
             <Link to="/" className="text-sm font-medium hover:text-primary transition-colors">
-              Blooming
+              Home
             </Link>
             <Link to="/insights" className="text-sm font-medium hover:text-primary transition-colors">
               Insights
+            </Link>
+            <Link to="/interactive-map" className="text-sm font-medium hover:text-primary transition-colors">
+              Interactive Map
             </Link>
             <Link to="/trending" className="text-sm font-medium hover:text-primary transition-colors">
               Trending
