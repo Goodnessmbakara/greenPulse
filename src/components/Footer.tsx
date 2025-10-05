@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div className="text-sm text-muted-foreground">
-            <p>Contact Us: <a href="mailto:info@greenpulse.com" className="hover:text-primary transition-colors">info@greenpulse.com</a></p>
+            <p>Contact Us: <a href="mailto:info@greenpulse.biz" className="hover:text-primary transition-colors">info@greenpulse.biz</a></p>
             <p>Phone: <a href="tel:+2347041203832" className="hover:text-primary transition-colors">+234 704 120 3832</a></p>
           </div>
 
