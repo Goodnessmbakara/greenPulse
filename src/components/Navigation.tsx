@@ -26,15 +26,6 @@ const Navigation = () => {
               Trending
             </Link>
           </div>
-
-          <div className="flex items-center gap-3">
-            <Button variant="ghost" className="text-sm">
-              Join Now
-            </Button>
-            <Button className="text-sm bg-primary hover:bg-primary/90">
-              Log In
-            </Button>
-          </div>
         </div>
       </div>
     </nav>
