@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 
 interface MapLegendProps {
@@ -13,6 +14,7 @@ export interface BloomFilters {
   showHigh: boolean;
   showMedium: boolean;
   showLow: boolean;
+  cropType: string;
 }
 
 const MapLegend = ({ onFilterApply, onResetMap }: MapLegendProps) => {
@@ -21,6 +23,7 @@ const MapLegend = ({ onFilterApply, onResetMap }: MapLegendProps) => {
     showHigh: true,
     showMedium: true,
     showLow: true,
+    cropType: 'all',
   });
 
   const handleFilterToggle = (filterType: keyof BloomFilters) => {
@@ -59,6 +62,7 @@ const MapLegend = ({ onFilterApply, onResetMap }: MapLegendProps) => {
       showHigh: true,
       showMedium: true,
       showLow: true,
+      cropType: 'all',
     });
 
     if (onResetMap) {
@@ -75,6 +79,31 @@ const MapLegend = ({ onFilterApply, onResetMap }: MapLegendProps) => {
     <div className="bg-white rounded-lg p-6 shadow-lg">
       <h3 className="text-lg font-bold mb-4">Map Legend</h3>
       
+      {/* Crop Type Filter */}
+      <div className="mb-4">
+        <Label className="text-sm font-semibold mb-2 block">Filter by Crop</Label>
+        <Select 
+          value={filters.cropType} 
+          onValueChange={(value) => setFilters(prev => ({ ...prev, cropType: value }))}
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="All Crops" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Crops</SelectItem>
+            <SelectItem value="maize">🌽 Maize</SelectItem>
+            <SelectItem value="wheat">🌾 Wheat</SelectItem>
+            <SelectItem value="coffee">☕ Coffee</SelectItem>
+            <SelectItem value="corn">🌽 Corn</SelectItem>
+            <SelectItem value="tea">🍵 Tea</SelectItem>
+            <SelectItem value="soy">🫘 Soy</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="border-t pt-4 mb-4"></div>
+
+      <Label className="text-sm font-semibold mb-3 block">Bloom Intensity</Label>
       <div className="space-y-3 mb-6">
         <div className="flex items-center gap-3">
           <Checkbox 

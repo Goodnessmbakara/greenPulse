@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import MapLegend, { BloomFilters } from "@/components/map/MapLegend";
 import MapLayers from "@/components/map/MapLayers";
 import BloomingMap from "@/components/map/BloomingMap";
+import QuickStats from "@/components/QuickStats";
 import { Badge } from "@/components/ui/badge";
 
 const InteractiveMap = () => {
@@ -19,6 +20,7 @@ const InteractiveMap = () => {
     showHigh: true,
     showMedium: true,
     showLow: true,
+    cropType: 'all',
   });
 
   const [resetTrigger, setResetTrigger] = useState(0);
@@ -56,6 +58,7 @@ const InteractiveMap = () => {
       showHigh: true,
       showMedium: true,
       showLow: true,
+      cropType: 'all',
     });
     setResetTrigger(prev => prev + 1);
   };
@@ -66,6 +69,9 @@ const InteractiveMap = () => {
       
       <main className="flex-1 pt-20">
         <div className="container mx-auto px-6 py-8">
+          {/* Quick Stats Dashboard */}
+          <QuickStats />
+
           {/* Search Results Header */}
           {location && (
             <div className="mb-6 p-4 bg-white rounded-lg shadow-md">
@@ -118,6 +124,7 @@ const InteractiveMap = () => {
                 layers={layers} 
                 bloomFilters={bloomFilters}
                 resetTrigger={resetTrigger}
+                searchLocation={location}
               />
             </div>
 
