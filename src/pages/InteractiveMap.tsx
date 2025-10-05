@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import MapLegend from "@/components/map/MapLegend";
+import MapLegend, { BloomFilters } from "@/components/map/MapLegend";
 import MapLayers from "@/components/map/MapLayers";
 import BloomingMap from "@/components/map/BloomingMap";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +14,14 @@ const InteractiveMap = () => {
     temperature: false,
     evi: false,
   });
+  
+  const [bloomFilters, setBloomFilters] = useState<BloomFilters>({
+    showHigh: true,
+    showMedium: true,
+    showLow: true,
+  });
+
+  const [resetTrigger, setResetTrigger] = useState(0);
 
   // Extract search parameters
   const location = searchParams.get('location');
@@ -37,6 +45,19 @@ const InteractiveMap = () => {
       ...prev,
       [layer]: !prev[layer]
     }));
+  };
+
+  const handleFilterApply = (filters: BloomFilters) => {
+    setBloomFilters(filters);
+  };
+
+  const handleResetMap = () => {
+    setBloomFilters({
+      showHigh: true,
+      showMedium: true,
+      showLow: true,
+    });
+    setResetTrigger(prev => prev + 1);
   };
 
   return (
@@ -85,12 +106,19 @@ const InteractiveMap = () => {
           <div className="flex gap-6 h-[calc(100vh-200px)]">
             {/* Left Sidebar - Legend */}
             <div className="w-64 flex-shrink-0">
-              <MapLegend />
+              <MapLegend 
+                onFilterApply={handleFilterApply}
+                onResetMap={handleResetMap}
+              />
             </div>
 
             {/* Center - Map */}
             <div className="flex-1 bg-white rounded-lg overflow-hidden shadow-lg">
-              <BloomingMap layers={layers} />
+              <BloomingMap 
+                layers={layers} 
+                bloomFilters={bloomFilters}
+                resetTrigger={resetTrigger}
+              />
             </div>
 
             {/* Right Sidebar - Layers */}

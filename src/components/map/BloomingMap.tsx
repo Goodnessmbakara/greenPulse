@@ -9,12 +9,19 @@ interface BloomingMapProps {
     temperature: boolean;
     evi: boolean;
   };
+  bloomFilters?: {
+    showHigh: boolean;
+    showMedium: boolean;
+    showLow: boolean;
+  };
+  resetTrigger?: number;
 }
 
-const BloomingMap = ({ layers }: BloomingMapProps) => {
+const BloomingMap = ({ layers, bloomFilters, resetTrigger }: BloomingMapProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<L.Map | null>(null);
   const nasaLayers = useRef<{ [key: string]: L.TileLayer }>({});
+  const markers = useRef<L.Marker[]>([]);
 
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
@@ -69,20 +76,29 @@ const BloomingMap = ({ layers }: BloomingMapProps) => {
       position: 'topright',
     }).addTo(map.current);
 
-    // Add global bloom monitoring markers (key regions)
+    // Add global bloom monitoring markers (key regions) with intensity levels
     const globalBloomRegions = [
-      { name: 'Nigeria - Maize Belt', lat: 11.0, lng: 8.5, crop: 'Maize' },
-      { name: 'India - Punjab', lat: 31.1, lng: 75.3, crop: 'Wheat' },
-      { name: 'Brazil - São Paulo', lat: -23.5, lng: -46.6, crop: 'Coffee' },
-      { name: 'USA - Midwest', lat: 40.0, lng: -95.0, crop: 'Corn' },
-      { name: 'China - North Plain', lat: 35.0, lng: 115.0, crop: 'Wheat' },
+      { name: 'Nigeria - Maize Belt', lat: 11.0, lng: 8.5, crop: 'Maize', intensity: 'high' },
+      { name: 'India - Punjab', lat: 31.1, lng: 75.3, crop: 'Wheat', intensity: 'high' },
+      { name: 'Brazil - São Paulo', lat: -23.5, lng: -46.6, crop: 'Coffee', intensity: 'medium' },
+      { name: 'USA - Midwest', lat: 40.0, lng: -95.0, crop: 'Corn', intensity: 'high' },
+      { name: 'China - North Plain', lat: 35.0, lng: 115.0, crop: 'Wheat', intensity: 'medium' },
+      { name: 'Kenya - Rift Valley', lat: -0.5, lng: 36.0, crop: 'Tea', intensity: 'medium' },
+      { name: 'Argentina - Pampas', lat: -34.6, lng: -58.4, crop: 'Soy', intensity: 'low' },
+      { name: 'Australia - Victoria', lat: -37.8, lng: 144.9, crop: 'Wheat', intensity: 'low' },
     ];
 
     globalBloomRegions.forEach(region => {
+      const color = region.intensity === 'high' 
+        ? '#7ED321' 
+        : region.intensity === 'medium' 
+        ? '#9ACD32' 
+        : '#D3D3D3';
+
       const marker = L.marker([region.lat, region.lng], {
         icon: L.divIcon({
-          className: 'custom-bloom-marker',
-          html: '<div style="background: #7ED321; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white;"></div>',
+          className: `custom-bloom-marker bloom-${region.intensity}`,
+          html: `<div style="background: ${color}; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>`,
           iconSize: [20, 20],
         }),
       }).addTo(map.current!);
@@ -91,11 +107,14 @@ const BloomingMap = ({ layers }: BloomingMapProps) => {
         <div style="min-width: 200px;">
           <strong>${region.name}</strong><br>
           <strong>Crop:</strong> ${region.crop}<br>
+          <strong>Bloom Intensity:</strong> ${region.intensity.charAt(0).toUpperCase() + region.intensity.slice(1)}<br>
           <strong>Data Source:</strong> NASA MODIS NDVI<br>
           <em>Real-time satellite data</em><br>
           <small>Coordinates: ${region.lat.toFixed(2)}, ${region.lng.toFixed(2)}</small>
         </div>
       `);
+
+      markers.current.push(marker);
     });
 
     return () => {
@@ -134,6 +153,52 @@ const BloomingMap = ({ layers }: BloomingMapProps) => {
       map.current.removeLayer(nasaLayers.current.evi);
     }
   }, [layers]);
+
+  // Apply bloom intensity filters
+  useEffect(() => {
+    if (!map.current || !bloomFilters) return;
+
+    markers.current.forEach(marker => {
+      const markerElement = marker.getElement();
+      if (!markerElement) return;
+
+      const classes = markerElement.className;
+      const isHigh = classes.includes('bloom-high');
+      const isMedium = classes.includes('bloom-medium');
+      const isLow = classes.includes('bloom-low');
+
+      const shouldShow = 
+        (isHigh && bloomFilters.showHigh) ||
+        (isMedium && bloomFilters.showMedium) ||
+        (isLow && bloomFilters.showLow);
+
+      if (shouldShow) {
+        markerElement.style.display = '';
+      } else {
+        markerElement.style.display = 'none';
+      }
+    });
+
+    console.log('🔍 Bloom filters applied:', bloomFilters);
+  }, [bloomFilters]);
+
+  // Reset map view
+  useEffect(() => {
+    if (!map.current || !resetTrigger) return;
+
+    // Reset to global view
+    map.current.setView([20, 0], 3);
+
+    // Show all markers
+    markers.current.forEach(marker => {
+      const markerElement = marker.getElement();
+      if (markerElement) {
+        markerElement.style.display = '';
+      }
+    });
+
+    console.log('🔄 Map reset to default view');
+  }, [resetTrigger]);
 
   return (
     <div 
